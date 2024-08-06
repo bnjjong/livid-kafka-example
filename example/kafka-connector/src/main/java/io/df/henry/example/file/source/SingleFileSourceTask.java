@@ -60,10 +60,10 @@ public class SingleFileSourceTask extends SourceTask {
         // 오프셋 스토리지에 가져온 마지막 처리한 지점을 가져옴.
         Object lastReadFileOffset = offset.get(POSITION_FIELD);
         if (lastReadFileOffset != null) {
-          position = (long) lastReadFileOffset;
+          this.position = (long) lastReadFileOffset;
         } else {
           // 파일을 처리한 적이 없다는 의미로 0을 할당함.
-          position = 0;
+          this.position = 0;
         }
       }
     } catch (Exception e) {

@@ -1,6 +1,8 @@
 buildscript {
-    project.ext.set("springVersion", "3.3.0")
-    project.ext.set("springPlugin", "1.1.5")
+    // https://plugins.gradle.org/plugin/org.springframework.boot
+    project.ext.set("springVersion", "3.3.2")
+    // https://plugins.gradle.org/plugin/io.spring.dependency-management
+    project.ext.set("springPlugin", "1.1.6")
 
 
     repositories {
@@ -12,14 +14,17 @@ buildscript {
     }
     dependencies {
         // lombok
+        // https://plugins.gradle.org/plugin/io.franzbecker.gradle-lombok
         classpath "io.franzbecker:gradle-lombok:5.0.0"
         // ascii doctor
-        classpath "org.asciidoctor:asciidoctor-gradle-jvm:4.0.2"
+        // https://plugins.gradle.org/plugin/org.asciidoctor.jvm.convert
+        classpath "org.asciidoctor:asciidoctor-gradle-jvm:4.0.3"
         // spring boot
         classpath "org.springframework.boot:spring-boot-gradle-plugin:${springVersion}"
         classpath "io.spring.gradle:dependency-management-plugin:${springPlugin}"
 
         // query dsl
+        // https://plugins.gradle.org/plugin/com.ewerk.gradle.plugins.querydsl
         classpath "gradle.plugin.com.ewerk.gradle.plugins:querydsl-plugin:1.0.10"
     }
 }

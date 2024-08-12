@@ -1,0 +1,8 @@
+apply from : "${project.getRootDir()}/gradle/ext/spring.common.gradle"
+//apply from : "${project.getRootDir()}/gradle/ext/spring.jpa.gradle"
+apply from : "${project.getRootDir()}/gradle/ext/spring.kafka.gradle"
+
+dependencies {
+
+}
+

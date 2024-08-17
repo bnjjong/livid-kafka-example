@@ -5,6 +5,8 @@ rootProject.name = 'livid-kafka-example'
         "example:kafka-processor-api",
         "example:kafka-spring-default-template",
         "example:kafka-spring-custom-template",
+        "example:kafka-spring-default-consumer-record-listener",
+        "example:kafka-spring-project",
 ].each {
     def projectNameArr = it.split(":")
 

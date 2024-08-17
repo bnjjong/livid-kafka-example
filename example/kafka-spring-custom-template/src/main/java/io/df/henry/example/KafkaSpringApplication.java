@@ -63,6 +63,7 @@ public class KafkaSpringApplication implements CommandLineRunner {
             })
         .exceptionally(
             ex -> { // 예외 처리
+              // 여기를 출력하게 할려면.. 그냥 서버를 내려 볼까?
               log.error("Message failed to send: " + ex.getMessage());
               return null;
             });

@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  hadoop:
+    image: my-hadoop-arm:latest # hadoop 폴더에서 빌드한 이미지.
+    container_name: hadoop-container
+    ports:
+      - "9870:9870"  # HDFS NameNode UI
+      - "8088:8088"  # YARN ResourceManager UI
+      - "19888:19888"  # JobHistoryServer
+      - "50070:50070"  # SecondaryNameNode
+      - "10020:10020"  # MapReduce JobTracker
+    tty: true  # 터미널 세션 유지
+    stdin_open: true # 기본적으로 표준 입력을 열어 둡니다 (사용자가 명령어를 실행할 수 있음).

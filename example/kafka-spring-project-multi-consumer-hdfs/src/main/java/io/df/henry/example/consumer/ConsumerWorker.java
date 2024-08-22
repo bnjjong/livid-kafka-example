@@ -45,12 +45,17 @@ public class ConsumerWorker implements Runnable{
     this.threadName = "consumer-thread="+number;
   }
 
+  /**
+   * 셧다운 훅이 발생했을때 안전하게 종료하기 위해 남은 버퍼 파일을 저장후 종료.
+   */
   public void stopAndWakeup() {
     log.info("stop and wakeup");
     consumer.wakeup();
     saveRemainBufferToHdfsFile();
   }
 
+  // 버퍼에 남아 있는 모든 데이터를 저장
+  // 스레드 종료 시 호출.
   private void saveRemainBufferToHdfsFile() {
     bufferString.forEach((p, v) -> this.save(p));
   }
@@ -85,6 +90,10 @@ public class ConsumerWorker implements Runnable{
 
   }
 
+  /**
+   * 버퍼 사이즈가 10개 이상인지 체크후에 hdfs에 저장한다.
+   * @param partitionNo
+   */
   private void checkFlushCount(int partitionNo) {
     if (bufferString.get(partitionNo) != null) {
       if (bufferString.get(partitionNo).size() > FLUSH_RECORD_COUNT -1) {
@@ -93,19 +102,26 @@ public class ConsumerWorker implements Runnable{
     }
   }
 
+  /**
+   *
+   * @param partitionNo
+   */
   private void save(int partitionNo) {
     if (bufferString.get(partitionNo).size() > 0) {
       try {
+        // 파일명은 color-[파티션번호]-[오프셋 번호].log
         String fileName = "/data/color-"+partitionNo+"-"+currentFileOffset.get(partitionNo)+ ".log";
         Configuration configuration = new Configuration();
         configuration.set("fs.defaultFS", "hdfs://localhost:9000");
+
+        // hadoop 파일 시스템 인스턴스 생성
         FileSystem hdfsFileSystem = FileSystem.get(configuration);
         FSDataOutputStream outputStream = hdfsFileSystem.create(new Path(fileName));
         outputStream.writeBytes(StringUtils.join(bufferString.get(partitionNo),"\n"));
         outputStream.close();
 
+        // 적재 완료시 버퍼를 초기화
         bufferString.put(partitionNo, new ArrayList<>());
-
       } catch (IOException e) {
         log.error(e.getMessage(), e);
       }
